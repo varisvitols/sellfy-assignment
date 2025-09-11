@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { fetchProducts } from './api/productApi';
+import { useContext } from 'react';
+import ProductContext from './context/ProductContext';
 
 function App() {
-  useEffect(() => {
-    fetchProducts().then((products) => console.log('products', products));
-  }, []);
+  const { products, setProducts, error } = useContext(ProductContext);
+
+  console.log('products', products);
 
   return (
     <>
