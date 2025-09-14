@@ -1,0 +1,51 @@
+.product {
+}
+
+.card {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  min-width: 70px;
+  min-height: 70px;
+  background-size: cover;
+  background-position: center;
+  margin-right: 10px;
+}
+
+.text {
+}
+
+.name {
+  font-weight: 700;
+}
+
+.description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+@media (min-width: 800px) {
+  .description {
+    max-width: 200px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .description {
+    max-width: 300px;
+  }
+}
+
+.options-button {
+  padding: 7px;
+}
+
+.options-icon {
+  width: 25px;
+  height: 25px;
+}

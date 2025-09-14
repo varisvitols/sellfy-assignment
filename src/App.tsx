@@ -1,15 +1,15 @@
 import { useContext } from 'react';
 import ProductContext from './context/ProductContext';
+import { ProductTable } from './components/ProductTable';
+import styles from './App.module.css';
 
 function App() {
   const { products, setProducts, error } = useContext(ProductContext);
 
-  console.log('products', products);
-
   return (
-    <>
-      <p>Hello, World!</p>
-    </>
+    <div className={styles.container}>
+      <ProductTable products={products} />
+    </div>
   );
 }
 
