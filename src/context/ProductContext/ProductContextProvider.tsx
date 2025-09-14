@@ -14,8 +14,7 @@ export default function ProductContextProvider({ children }: Props) {
   useEffect(() => {
     fetchProducts()
       .then((products) => {
-        setProducts(products);
-        console.log('products', products);
+        setProducts(products.data);
       })
       .catch((error) => {
         setError(error);
@@ -24,5 +23,9 @@ export default function ProductContextProvider({ children }: Props) {
 
   const context: ProductContextType = { products, setProducts, error };
 
-  return <ProductContext value={context}>{children}</ProductContext>;
+  return (
+    <ProductContext.Provider value={context}>
+      {children}
+    </ProductContext.Provider>
+  );
 }

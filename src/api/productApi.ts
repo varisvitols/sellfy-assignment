@@ -1,6 +1,6 @@
-import type { Product } from '../types/products';
+import type { ProductsResponse } from '../types/products';
 
-export async function fetchProducts(): Promise<Product[]> {
+export async function fetchProducts(): Promise<ProductsResponse> {
   const res = await fetch(
     'https://raw.githubusercontent.com/Sellfy/test-assignment-frontend/refs/heads/master/products.json'
   );
