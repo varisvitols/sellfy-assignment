@@ -12,7 +12,7 @@ interface Props {
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 
-export function ProductTable({ products, setProducts }: Props) {
+export function ProductPage({ products, setProducts }: Props) {
   const { setBodyOverflowHidden } = useContext(AppContext);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
@@ -60,7 +60,6 @@ export function ProductTable({ products, setProducts }: Props) {
   useClickAway(tableRef, closeOptionsMenu);
 
   function handleShareClick() {
-    console.log('Share product:', selectedProductId);
     const productToShare = products.find(
       (product) => product._id === selectedProductId
     );

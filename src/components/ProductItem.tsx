@@ -40,7 +40,9 @@ export default function ProductItem({ product, onOptionsClick }: Props) {
         <strong>{decodeHtml(category)}</strong>
       </td>
       <td>
-        <strong>{price.toFixed(2)}</strong>
+        <strong>
+          {currency} {price.toFixed(2)}
+        </strong>
       </td>
       <td>
         <button

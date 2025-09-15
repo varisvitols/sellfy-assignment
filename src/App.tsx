@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import ProductContext from './context/ProductContext';
-import { ProductTable } from './components/ProductTable';
+import { ProductPage } from './components/ProductPage';
 import styles from './App.module.css';
 import AppContext from './context/AppContext';
 
@@ -20,7 +20,7 @@ function App() {
       {error ? (
         <div>An Error has occurred: couldn't fetch products.</div>
       ) : (
-        <ProductTable products={products} setProducts={setProducts} />
+        <ProductPage products={products} setProducts={setProducts} />
       )}
     </div>
   );
