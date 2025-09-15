@@ -3,6 +3,8 @@ import type { Product } from '../types/products';
 import { useRef, useState } from 'react';
 import OptionsMenu from './OptionsMenu';
 import useClickAway from '../hooks/useClickAway';
+import Modal from './Modal';
+import ShareDialog from './ShareDialog';
 
 interface Props {
   products: Product[];
@@ -17,6 +19,9 @@ export function ProductTable({ products, setProducts }: Props) {
     x: number;
     y: number;
   } | null>(null);
+  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
+  const [sharedProduct, setSharedProduct] = useState<Product | null>(null);
+
   const tableRef = useRef<HTMLDivElement | null>(null);
 
   const productItems = products.map((product) => {
@@ -38,11 +43,7 @@ export function ProductTable({ products, setProducts }: Props) {
     setOptionsMenuPosition({ x: clientX, y: clientY });
   }
 
-  function handleShare() {
-    console.log('Share product:', selectedProductId);
-  }
-
-  function handleDelete() {
+  function deleteProduct() {
     const updatedProducts = products.filter(
       (product: Product) => product._id !== selectedProductId
     );
@@ -56,26 +57,50 @@ export function ProductTable({ products, setProducts }: Props) {
 
   useClickAway(tableRef, closeOptionsMenu);
 
+  function handleShareClick() {
+    console.log('Share product:', selectedProductId);
+    const productToShare = products.find(
+      (product) => product._id === selectedProductId
+    );
+    if (productToShare) {
+      setSharedProduct(productToShare);
+      setIsShareDialogOpen(true);
+    }
+    setSelectedProductId(null);
+  }
+
+  function handleModalClose() {
+    setIsShareDialogOpen(false);
+  }
+
   return (
-    <div ref={tableRef}>
-      <table>
-        <thead>
-          <tr>
-            <td>Product</td>
-            <td className="mobile-hidden">Category</td>
-            <td>Price</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>{productItems}</tbody>
-      </table>
-      {selectedProductId && optionsMenuPosition && (
-        <OptionsMenu
-          onShareClick={handleShare}
-          onDeleteClick={handleDelete}
-          position={optionsMenuPosition}
-        />
-      )}
-    </div>
+    <>
+      <div ref={tableRef}>
+        <table>
+          <thead>
+            <tr>
+              <td>Product</td>
+              <td className="mobile-hidden">Category</td>
+              <td>Price</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>{productItems}</tbody>
+        </table>
+        {selectedProductId && optionsMenuPosition && (
+          <OptionsMenu
+            onShareClick={handleShareClick}
+            onDeleteClick={deleteProduct}
+            position={optionsMenuPosition}
+          />
+        )}
+      </div>
+      <Modal
+        isOpen={isShareDialogOpen && !!sharedProduct}
+        closeModal={handleModalClose}
+      >
+        <ShareDialog product={sharedProduct} />
+      </Modal>
+    </>
   );
 }
