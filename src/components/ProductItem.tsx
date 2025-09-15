@@ -1,3 +1,4 @@
+import type { CurrencyRatesResponse } from '../types/currencyRates';
 import type { Product } from '../types/products';
 import { decodeHtml } from '../utils/decodeHtml';
 import styles from './ProductItem.module.css';
@@ -5,6 +6,7 @@ import { FiMoreVertical as OptionsIcon } from 'react-icons/fi';
 
 interface Props {
   product: Product;
+  currencyRatesResponse: CurrencyRatesResponse | null;
   onOptionsClick?: (
     productId: string,
     clientX: number,
@@ -12,9 +14,25 @@ interface Props {
   ) => void;
 }
 
-export default function ProductItem({ product, onOptionsClick }: Props) {
+export default function ProductItem({
+  product,
+  currencyRatesResponse,
+  onOptionsClick,
+}: Props) {
   const { _id, price, name, description, currency, category, url, image_url } =
     product;
+
+  let currencyRate = currencyRatesResponse
+    ? currencyRatesResponse.rates[currency]
+    : null;
+  if (currencyRatesResponse?.base === currency) {
+    currencyRate = 1;
+  }
+  const convertedPrice = currencyRate ? price / currencyRate : null;
+
+  const priceString = convertedPrice
+    ? `$${convertedPrice.toFixed(2)}`
+    : `${currency} ${price.toFixed(2)}`;
 
   function handleOptionsButtonClick(
     event: React.MouseEvent<HTMLButtonElement>
@@ -40,9 +58,7 @@ export default function ProductItem({ product, onOptionsClick }: Props) {
         <strong>{decodeHtml(category)}</strong>
       </td>
       <td>
-        <strong>
-          {currency} {price.toFixed(2)}
-        </strong>
+        <strong>{priceString}</strong>
       </td>
       <td>
         <button

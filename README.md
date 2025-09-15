@@ -3,6 +3,7 @@
 How to run this project:
 
 - Clone project
+- `cd` into project directory
 - run `npm install`
 - run `npm run dev`
 

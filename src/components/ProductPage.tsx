@@ -1,11 +1,13 @@
 import ProductItem from './ProductItem';
 import type { Product } from '../types/products';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import OptionsMenu from './OptionsMenu';
 import useClickAway from '../hooks/useClickAway';
 import Modal from './Modal';
 import ShareDialog from './ShareDialog';
 import AppContext from '../context/AppContext';
+import { fetchCurrencyRates } from '../api/currencyRateApi';
+import type { CurrencyRatesResponse } from '../types/currencyRates';
 
 interface Props {
   products: Product[];
@@ -17,6 +19,8 @@ export function ProductPage({ products, setProducts }: Props) {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
+  const [currencyRatesResponse, setCurrencyRatesResponse] =
+    useState<CurrencyRatesResponse | null>(null);
   const [optionsMenuPosition, setOptionsMenuPosition] = useState<{
     x: number;
     y: number;
@@ -30,11 +34,18 @@ export function ProductPage({ products, setProducts }: Props) {
     return (
       <ProductItem
         product={product}
+        currencyRatesResponse={currencyRatesResponse}
         key={product._id}
         onOptionsClick={openOptionsMenu}
       />
     );
   });
+
+  useEffect(() => {
+    fetchCurrencyRates().then((data) => {
+      setCurrencyRatesResponse(data);
+    });
+  }, []);
 
   function openOptionsMenu(
     productId: string,
