@@ -1,0 +1,31 @@
+.options {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 6px;
+  transform: translate(-100%, 0);
+}
+
+.option {
+  padding: 3px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.option:hover {
+  background: #f0f0f0;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}
+
+.text {
+  margin-left: 6px;
+  padding-bottom: 3px;
+}

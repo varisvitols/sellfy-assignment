@@ -8,7 +8,11 @@ function App() {
 
   return (
     <div className={styles.container}>
-      <ProductTable products={products} />
+      {error ? (
+        <div>An Error has occurred: couldn't fetch products.</div>
+      ) : (
+        <ProductTable products={products} setProducts={setProducts} />
+      )}
     </div>
   );
 }

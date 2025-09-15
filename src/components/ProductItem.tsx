@@ -5,11 +5,22 @@ import { FiMoreVertical as OptionsIcon } from 'react-icons/fi';
 
 interface Props {
   product: Product;
+  onOptionsClick?: (
+    productId: string,
+    clientX: number,
+    clientY: number
+  ) => void;
 }
 
-export default function ProductItem({ product }: Props) {
+export default function ProductItem({ product, onOptionsClick }: Props) {
   const { _id, price, name, description, currency, category, url, image_url } =
     product;
+
+  function handleOptionsButtonClick(
+    event: React.MouseEvent<HTMLButtonElement>
+  ) {
+    onOptionsClick?.(_id, event.clientX, event.clientY);
+  }
 
   return (
     <tr className={styles.product}>
@@ -32,7 +43,11 @@ export default function ProductItem({ product }: Props) {
         <strong>{price.toFixed(2)}</strong>
       </td>
       <td>
-        <button className={styles['options-button']} aria-label="Options">
+        <button
+          className={styles['options-button']}
+          aria-label="Options"
+          onClick={handleOptionsButtonClick}
+        >
           <OptionsIcon className={styles['options-icon']} />
         </button>
       </td>

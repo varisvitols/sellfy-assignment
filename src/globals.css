@@ -47,6 +47,11 @@ button {
   border: none;
   background: none;
   padding: 0;
+  font-size: inherit;
+}
+
+button.danger {
+  color: red;
 }
 
 /* Media queries */
