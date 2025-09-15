@@ -1,10 +1,11 @@
 import ProductItem from './ProductItem';
 import type { Product } from '../types/products';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import OptionsMenu from './OptionsMenu';
 import useClickAway from '../hooks/useClickAway';
 import Modal from './Modal';
 import ShareDialog from './ShareDialog';
+import AppContext from '../context/AppContext';
 
 interface Props {
   products: Product[];
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function ProductTable({ products, setProducts }: Props) {
+  const { setBodyOverflowHidden } = useContext(AppContext);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
@@ -65,12 +67,15 @@ export function ProductTable({ products, setProducts }: Props) {
     if (productToShare) {
       setSharedProduct(productToShare);
       setIsShareDialogOpen(true);
+      setBodyOverflowHidden(true);
     }
     setSelectedProductId(null);
   }
 
   function handleModalClose() {
     setIsShareDialogOpen(false);
+    setBodyOverflowHidden(false);
+    setSharedProduct(null);
   }
 
   return (
